@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+//Hi
 public class RegistrationAndLoginApp {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Menu");
