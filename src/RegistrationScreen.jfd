@@ -4,32 +4,33 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {comp TitlePanel:::::x, comp MembersPanel:::::x, comp panel5::l:::x}"
-			"$verticalGroup": "par l {seq t {comp TitlePanel:::p::p, space :::p, comp MembersPanel:::p::p, space :::p, comp panel5:::::x}}"
+			"$horizontalGroup": "par l {comp MembersPanel:::::x, comp panel5::l:::x, comp TitlePanel::l:::x}"
+			"$verticalGroup": "par l {seq t {comp TitlePanel:::p::p, space :p:33:p, comp MembersPanel:::p::p, space :::p, comp panel5:::::x}}"
 		} ) {
 			name: "this"
-			"background": new java.awt.Color( 39, 7, 59, 255 )
+			"background": new java.awt.Color( 255, 255, 255, 255 )
 			"foreground": new java.awt.Color( 255, 255, 255, 255 )
+			"maximumSize": new java.awt.Dimension( 482, 297 )
 			auxiliary() {
 				"JavaCodeGenerator.variableName": "menu"
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp menu_title::::539:x}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp menu_title:::p:40:p, space :::x}}"
+				"$horizontalGroup": "par l {seq l {space :::p, comp menu_title::::473:x, space :::p}}"
+				"$verticalGroup": "par l {comp menu_title:::p::p}"
 			} ) {
 				name: "TitlePanel"
-				"background": new java.awt.Color( 23, 17, 43, 255 )
+				"background": new java.awt.Color( 255, 102, 153, 255 )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "menu_title"
 					"text": "Login and Registration Form"
-					"font": new java.awt.Font( "JetBrains Mono", 1, 26 )
+					"font": new java.awt.Font( "JetBrains Mono", 1, 18 )
 					"foreground": new java.awt.Color( 255, 255, 255, 255 )
 					"horizontalAlignment": 0
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {space ::143:x, comp label_slu_logo:::p::p, space s:::p, par l {comp label_group6:::p::p, comp label_members:::p:149:p}, space :p:167:p}, seq l {par l {seq l {space :p:69:p, comp label_javier:::p:187:p}, seq l {space :p:50:p, comp label_natividad:::p:205:p}}, space :p:29:p, par t {comp label_miguel:::p:187:p, comp label_tadeo:::p:187:p}, space ::73:x}}"
-				"$verticalGroup": "par l {seq t {space ::18:x, par l {comp label_slu_logo:::p::p, seq {comp label_group6:::p:40:p, space :::p, comp label_members:::p::p}}, space :::p, par b {comp label_javier::b:p::p, comp label_miguel::b:p::p}, space :::p, par b {comp label_natividad::b:p::p, comp label_tadeo::b:p::p}, space :p:20:p}}"
+				"$horizontalGroup": "par l {seq {space ::32:x, par l {seq l {space :p:19:p, comp label_javier:::p:187:p}, comp label_natividad::l:p:205:p}, space :p:29:p, par t {comp label_miguel:::p:187:p, comp label_tadeo:::p:187:p}, space :p:31:p}, seq l {space :p:93:p, comp label_slu_logo:::p::p, par l {seq {space :p:32:p, comp label_members:::p:149:p}, seq l {space u:::p, comp label_group6:::p::p}}, space ::148:x}}"
+				"$verticalGroup": "par l {seq t {par l {seq {space :::p, comp label_slu_logo:::p::p}, seq l {space :p:21:p, comp label_group6:::p:40:p, space s:::p, comp label_members:::p::p}}, space ::11:x, par b {comp label_javier::b:p::p, comp label_miguel::b:p::p}, space :::p, par b {comp label_natividad::b:p::p, comp label_tadeo::b:p::p}, space :p:20:p}}"
 			} ) {
 				name: "MembersPanel"
 				"background": sfield java.awt.Color white
@@ -85,11 +86,11 @@ new FormModel {
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {space ::72:x, par l {seq l {comp label_login_label:::p::p, space :153:153:p, comp label_register_label:::p::p}, seq l {comp menu_button_login:::p:139:p, space :153:153:p, comp menu_button_register:::p:128:p}}, space :p:53:p}}"
-				"$verticalGroup": "par l {seq l {par l {comp label_login_label:::p::p, comp label_register_label:::p::p}, space :6:6:p, par l {comp menu_button_login:::p::p, comp menu_button_register:::p::p}, space :0:11:x}}"
+				"$horizontalGroup": "par l {seq t {space :p:32:p, par l {comp label_login_label::l:p::p, comp menu_button_login::l:p:139:p}, space ::130:x, par l {comp menu_button_register:::p:128:p, comp label_register_label:::p::p}, space :p:53:p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l {seq {comp label_login_label:::p::p, space :::p, comp menu_button_login:::p::p}, seq {comp label_register_label:::p::p, space :::p, comp menu_button_register:::p::p}}, space :0:7:x}}"
 			} ) {
 				name: "panel5"
-				"background": new java.awt.Color( 51, 0, 51, 255 )
+				"background": new java.awt.Color( 255, 102, 153, 255 )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label_login_label"
 					"text": "Already Have an Account?"
@@ -122,11 +123,11 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 10, 5 )
-			"size": new java.awt.Dimension( 545, 310 )
+			"size": new java.awt.Dimension( 485, 310 )
 		} )
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {comp panel4::l:::x}"
-			"$verticalGroup": "par l {seq l {comp panel4:::p::p, space :0:0:x}}"
+			"$horizontalGroup": "par l {comp panel4::t:::x}"
+			"$verticalGroup": "par l {seq t {space :::x, comp panel4:::p::p, space :::p}}"
 		} ) {
 			name: "loginForm"
 			"background": &Color5 new java.awt.Color( 255, 255, 255, 255 )
@@ -136,8 +137,8 @@ new FormModel {
 				"JavaCodeGenerator.variableName": "login_form"
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :p:18:p, par l {seq l {space :6:6:p, par l {seq t {space :0:0:x, comp label_username:::p::p, space ::282:x}, seq t {par t {seq l {comp label13:::p::p, space :0:0:x}, comp passwordField_password::l:::x, comp textField_username::l::322:x, comp loginButton::l::322:x}, space :p:32:p}}}, seq {comp label_login_title:::p::p, space ::300:x}}}}"
-				"$verticalGroup": "par l {seq l {space :p:15:p, comp label_login_title:::p::p, space :::p, comp label_username:::p::p, space :::p, comp textField_username:::p:43:p, space :::p, comp label13:::p::p, space :::p, comp passwordField_password:::p:42:p, space :::p, comp loginButton:::p:39:p, space ::61:x}}"
+				"$horizontalGroup": "par l {seq {space :p:18:p, par l {seq l {space :6:6:p, par l {seq t {space :0:0:x, comp label_username:::p::p, space u:::p, comp register_warning_account_name2:::p::p, space ::269:x}, seq t {par t {seq l {comp label13:::p::p, space s:::p, comp login_warning_password:::p::p, space :0:235:x}, comp passwordField_password::l:::x, comp textField_username::l::322:x, comp loginButton::l::322:x}, space :p:32:p}}}, seq {comp label_login_title:::p::p, space ::300:x}}}}"
+				"$verticalGroup": "par l {seq l {space :p:15:p, comp label_login_title:::p::p, space :::p, par b {comp label_username::b:p::p, comp register_warning_account_name2::b:p::p}, space :::p, comp textField_username:::p:43:p, space :::p, par b {comp label13::b:p::p, comp login_warning_password::b:p::p}, space :::p, comp passwordField_password:::p:42:p, space :::p, comp loginButton:::p:39:p, space ::61:x}}"
 			} ) {
 				name: "panel4"
 				"background": &Color6 new java.awt.Color( 255, 255, 255, 255 )
@@ -185,6 +186,21 @@ new FormModel {
 					"autoscrolls": true
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "loginButtonClicked", true ) )
 				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "register_warning_account_name2"
+					"font": &Font4 new java.awt.Font( "Arial", 1, 9 )
+					"foreground": &Color15 new java.awt.Color( 255, 51, 51, 255 )
+					"background": &Color16 new java.awt.Color( 255, 0, 51, 255 )
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "login_warning_username"
+					}
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "login_warning_password"
+					"font": #Font4
+					"foreground": #Color15
+					"background": #Color16
+				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 5, 360 )
@@ -200,27 +216,30 @@ new FormModel {
 				"$verticalGroup": "par l {seq l {space :::p, comp label14:::p::p, space :::p, comp label15:::p::p, space :::p, comp label16:::p::p, space :::x}}"
 			} ) {
 				name: "panel6"
-				"background": &Color15 new java.awt.Color( 255, 255, 255, 255 )
+				"background": &Color17 new java.awt.Color( 255, 255, 255, 255 )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label14"
 					"text": "Login is Successful"
-					"foreground": &Color16 new java.awt.Color( 51, 102, 0, 255 )
-					"font": &Font4 new java.awt.Font( "Segoe UI", 1, 14 )
+					"foreground": &Color18 new java.awt.Color( 51, 102, 0, 255 )
+					"font": &Font5 new java.awt.Font( "Segoe UI", 1, 14 )
 					"horizontalAlignment": 0
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label15"
 					"text": "Account Name"
-					"foreground": &Color17 new java.awt.Color( 51, 51, 51, 255 )
-					"font": &Font5 new java.awt.Font( "Segoe UI", 1, 14 )
+					"foreground": &Color19 new java.awt.Color( 51, 51, 51, 255 )
+					"font": &Font6 new java.awt.Font( "Segoe UI", 1, 14 )
 					"horizontalAlignment": 0
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label16"
 					"text": "Lawrence T. Miguel"
-					"foreground": #Color17
-					"font": #Font4
+					"foreground": #Color19
+					"font": #Font5
 					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "login_label_account_name"
+					}
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
@@ -239,8 +258,8 @@ new FormModel {
 				"JavaCodeGenerator.variableName": "registration_form"
 			}
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :p:18:p, par l {seq {comp label_register:::p::p, space :::x}, seq {space :6:6:p, par l {seq {comp label_username2:::p::p, space :0:0:x}, seq t {par t {comp passwordField_password2::l:::x, comp textField_fullName::l:::x, comp textField_fullName2::l:::x, comp label17::l:p::p, comp label18::l:p::p, comp passwordField_password3::l:p:322:p, seq {space :6:6:p, comp loginButton2:::::x}}, space :p:32:p}, seq l {comp label_username3:::p::p, space :::x}}}}}}"
-				"$verticalGroup": "par l {seq l {space :p:15:p, comp label_register:::p::p, space :::p, comp label_username2:::p::p, space :::p, comp textField_fullName:::p:43:p, space :::p, comp label_username3:::p::p, space :::p, comp textField_fullName2:::p:43:p, space :::p, comp label17:::p::p, space :::p, comp passwordField_password2:::p:42:p, space :::p, comp label18:::p::p, space :6:6:p, comp passwordField_password3:::p:42:p, space :::p, comp loginButton2:::p:39:p, space ::78:x}}"
+				"$horizontalGroup": "par l {seq l {space :p:18:p, par l {seq {comp label_register:::p::p, space :::x}, seq {space :6:6:p, par l {seq {comp register_title_account_name:::p::p, space :::p, comp register_warning_account_name:::p::p, space :0:0:x}, seq t {par t {comp passwordField_password2::l:::x, comp textField_fullName::l:::x, comp textField_fullName2::l:::x, seq {space :6:6:p, comp loginButton2:::::x}, seq l {par t {seq l {comp label17:::p::p, space :p:43:p, comp register_warning_password:::p::p}, seq l {comp label18:::p::p, space :p:46:p, comp register_warning_password_confirm:::p::p}, comp passwordField_password3::l:p:322:p}, space :0:0:x}}, space :p:32:p}, seq l {comp register_label_username:::p::p, space :p:39:p, comp register_warning_username:::p::p, space :::x}}}}}}"
+				"$verticalGroup": "par l {seq l {space :p:15:p, comp label_register:::p::p, space :::p, par b {comp register_title_account_name::b:p::p, comp register_warning_account_name::b:p::p}, space :::p, comp textField_fullName:::p:43:p, space :::p, par b {comp register_label_username::b:p::p, comp register_warning_username::b:p::p}, space :::p, comp textField_fullName2:::p:43:p, space :::p, par b {comp label17::b:p::p, comp register_warning_password::b:p::p}, space :::p, comp passwordField_password2:::p:42:p, space :::p, par b {comp label18::b:p::p, comp register_warning_password_confirm::b:p::p}, space :6:6:p, comp passwordField_password3:::p:42:p, space :::p, comp loginButton2:::p:39:p, space ::78:x}}"
 			} ) {
 				name: "panel7"
 				"background": #Color6
@@ -251,7 +270,7 @@ new FormModel {
 					"foreground": #Color7
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label_username2"
+					name: "register_title_account_name"
 					"text": "Account Name"
 					"font": #Font2
 					"foreground": #Color8
@@ -289,7 +308,7 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "registerButtonClicked", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label_username3"
+					name: "register_label_username"
 					"text": "Username"
 					"font": #Font2
 					"foreground": #Color8
@@ -317,6 +336,42 @@ new FormModel {
 					"font": #Font2
 					"foreground": #Color8
 				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "register_warning_account_name"
+					"font": #Font4
+					"foreground": #Color15
+					"background": #Color16
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "register_warning_account_name"
+					}
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "register_warning_username"
+					"font": #Font4
+					"foreground": #Color15
+					"background": #Color16
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "register_warning_username"
+					}
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "register_warning_password"
+					"font": #Font4
+					"foreground": #Color15
+					"background": #Color16
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "register_warning_password"
+					}
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "register_warning_password_confirm"
+					"font": #Font4
+					"foreground": #Color15
+					"background": #Color16
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "register_warning_password_confirm"
+					}
+				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 380, 485 )
@@ -332,27 +387,30 @@ new FormModel {
 				"$verticalGroup": "par l {seq l {space :::p, comp label19:::p::p, space :::p, comp label20:::p::p, space :::p, comp label21:::p::p, space :::x}}"
 			} ) {
 				name: "panel8"
-				"background": #Color15
+				"background": #Color17
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label19"
 					"text": "Registration Successful"
-					"foreground": #Color16
-					"font": #Font4
+					"foreground": #Color18
+					"font": #Font5
 					"horizontalAlignment": 0
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label20"
 					"text": "Account Name"
-					"foreground": #Color17
-					"font": #Font5
+					"foreground": #Color19
+					"font": #Font6
 					"horizontalAlignment": 0
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "label21"
 					"text": "Lawrence T. Miguel"
-					"foreground": #Color17
-					"font": #Font4
+					"foreground": #Color19
+					"font": #Font5
 					"horizontalAlignment": 0
+					auxiliary() {
+						"JavaCodeGenerator.variableName": "register_label_account_name"
+					}
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

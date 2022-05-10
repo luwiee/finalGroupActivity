@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import net.miginfocom.swing.*;
@@ -29,14 +32,96 @@ public class RegistrationScreen extends JPanel {
         login_form.setVisible(false);
     }
 
-    private void loginButtonClicked(MouseEvent e) {
+    private void loginButtonClicked(MouseEvent e) throws IOException {
         // TODO add your code here
-        dialogLoginSuccess.setVisible(true);
+        String username = login_username_field.getText();
+        String password = String.valueOf(login_password_field.getPassword());
+
+        login_warning_username.setText("");
+        login_warning_password.setText("");
+
+        if (username.isBlank() || password.isBlank()){
+            if (username.isBlank()) login_warning_username.setText("Username cannot be empty");
+            if (password.isBlank()) login_warning_password.setText("Password cannot be empty");
+        }
+
+        List<Integer> errors = Authentication.login(username,password);
+
+        if (errors.contains(0)) {
+            String account_name = Authentication.getAccountName(username);
+            login_label_account_name.setText(account_name);
+
+            dialogLoginSuccess.setVisible(true);
+
+            login_username_field.setText("");
+            login_password_field.setText("");
+            login_form.setVisible(false);
+
+        }
+        if (errors.contains(1)){
+            login_username_field.setText("");
+            login_warning_username.setText("User does not Exist!");
+        }
+
+        if (errors.contains(2)){
+            login_password_field.setText("");
+            login_warning_password.setText("Password is Invalid!");
+        }
     }
 
-    private void registerButtonClicked(MouseEvent e) {
+    private void registerButtonClicked(MouseEvent e) throws IOException {
         // TODO add your code here
-        dialogRegistrationSuccess.setVisible(true);
+        String account_name = register_account_name.getText();
+        String username = register_username_field.getText();
+        String password = String.valueOf(register_password_field.getPassword());
+        String password_confirm = String.valueOf(register_password_confirm_field.getPassword());
+
+        // Reset Warning Labels to Blank
+        register_warning_account_name.setText("");
+        register_warning_username.setText("");
+        register_warning_password.setText("");
+        register_warning_password_confirm.setText("");
+
+
+
+        if (account_name.isBlank() || username.isBlank() || password.isBlank() || password_confirm.isBlank()){
+            if (account_name.isBlank()) register_warning_account_name.setText("Account Name cannot be empty!");
+            if (username.isBlank()) register_warning_username.setText("Username cannot be empty!");
+            if (password.isBlank()) register_warning_password.setText("Password cannot be empty!");
+            return;
+        }
+
+        List<Integer> errors = Authentication.register(account_name,username,password,password_confirm);
+
+        if (errors.contains(0)){
+            register_label_account_name.setText(account_name);
+            dialogRegistrationSuccess.setVisible(true);
+            // Close Window for Registering
+            registration_form.setVisible(false);
+
+            // Reset Fields to Blank
+            register_account_name.setText("");
+            register_username_field.setText("");
+            register_password_field.setText("");
+            register_password_confirm_field.setText("");
+
+        }
+        if (errors.contains(1)){
+            register_warning_account_name.setText("Account Name already exists!");
+            register_account_name.setText("");
+        }
+        if (errors.contains(2)){
+            register_warning_username.setText("Username already exists!");
+            register_username_field.setText("");
+        }
+        if (errors.contains(3)){
+            register_warning_password.setText("Passwords are not the same!");
+            register_warning_password_confirm.setText("Passwords are not the same!");
+            register_password_field.setText("");
+            register_password_confirm_field.setText("");
+        }
+
+
     }
 
     private void initComponents() {
@@ -65,40 +150,47 @@ public class RegistrationScreen extends JPanel {
         label13 = new JLabel();
         login_password_field = new JPasswordField();
         loginButton = new JButton();
+        login_warning_username = new JLabel();
+        login_warning_password = new JLabel();
         dialogLoginSuccess = new JDialog();
         panel6 = new JPanel();
         label14 = new JLabel();
         label15 = new JLabel();
-        label16 = new JLabel();
+        login_label_account_name = new JLabel();
         registration_form = new JFrame();
         panel7 = new JPanel();
         label_register = new JLabel();
-        label_username2 = new JLabel();
+        register_title_account_name = new JLabel();
         register_account_name = new JTextField();
         label17 = new JLabel();
         register_password_field = new JPasswordField();
         loginButton2 = new JButton();
-        label_username3 = new JLabel();
+        register_label_username = new JLabel();
         register_username_field = new JTextField();
         register_password_confirm_field = new JPasswordField();
         label18 = new JLabel();
+        register_warning_account_name = new JLabel();
+        register_warning_username = new JLabel();
+        register_warning_password = new JLabel();
+        register_warning_password_confirm = new JLabel();
         dialogRegistrationSuccess = new JDialog();
         panel8 = new JPanel();
         label19 = new JLabel();
         label20 = new JLabel();
-        label21 = new JLabel();
+        register_label_account_name = new JLabel();
 
         //======== this ========
-        setBackground(new Color(39, 7, 59));
+        setBackground(Color.white);
         setForeground(Color.white);
+        setMaximumSize(new Dimension(482, 297));
 
         //======== TitlePanel ========
         {
-            TitlePanel.setBackground(new Color(23, 17, 43));
+            TitlePanel.setBackground(new Color(255, 102, 153));
 
             //---- menu_title ----
             menu_title.setText("Login and Registration Form");
-            menu_title.setFont(new Font("JetBrains Mono", Font.BOLD, 26));
+            menu_title.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             menu_title.setForeground(Color.white);
             menu_title.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -108,14 +200,12 @@ public class RegistrationScreen extends JPanel {
                 TitlePanelLayout.createParallelGroup()
                     .addGroup(TitlePanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(menu_title, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
+                        .addComponent(menu_title, GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                        .addContainerGap())
             );
             TitlePanelLayout.setVerticalGroup(
                 TitlePanelLayout.createParallelGroup()
-                    .addGroup(TitlePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(menu_title, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(menu_title)
             );
         }
 
@@ -170,39 +260,43 @@ public class RegistrationScreen extends JPanel {
             MembersPanel.setLayout(MembersPanelLayout);
             MembersPanelLayout.setHorizontalGroup(
                 MembersPanelLayout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, MembersPanelLayout.createSequentialGroup()
-                        .addContainerGap(143, Short.MAX_VALUE)
-                        .addComponent(label_slu_logo)
-                        .addGap(18, 18, 18)
-                        .addGroup(MembersPanelLayout.createParallelGroup()
-                            .addComponent(label_group6)
-                            .addComponent(label_members, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))
-                        .addGap(167, 167, 167))
                     .addGroup(MembersPanelLayout.createSequentialGroup()
+                        .addContainerGap(32, Short.MAX_VALUE)
                         .addGroup(MembersPanelLayout.createParallelGroup()
                             .addGroup(MembersPanelLayout.createSequentialGroup()
-                                .addGap(69, 69, 69)
+                                .addGap(19, 19, 19)
                                 .addComponent(label_javier, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
-                            .addGroup(MembersPanelLayout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(label_natividad, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(label_natividad, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(MembersPanelLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                             .addComponent(label_miguel, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
                             .addComponent(label_tadeo, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(73, Short.MAX_VALUE))
+                        .addGap(31, 31, 31))
+                    .addGroup(MembersPanelLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(label_slu_logo)
+                        .addGroup(MembersPanelLayout.createParallelGroup()
+                            .addGroup(MembersPanelLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(label_members, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(MembersPanelLayout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(label_group6)))
+                        .addContainerGap(148, Short.MAX_VALUE))
             );
             MembersPanelLayout.setVerticalGroup(
                 MembersPanelLayout.createParallelGroup()
                     .addGroup(GroupLayout.Alignment.TRAILING, MembersPanelLayout.createSequentialGroup()
-                        .addContainerGap(18, Short.MAX_VALUE)
                         .addGroup(MembersPanelLayout.createParallelGroup()
-                            .addComponent(label_slu_logo)
                             .addGroup(MembersPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(label_slu_logo))
+                            .addGroup(MembersPanelLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
                                 .addComponent(label_group6, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(label_members)))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addGroup(MembersPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(label_javier)
                             .addComponent(label_miguel))
@@ -216,7 +310,7 @@ public class RegistrationScreen extends JPanel {
 
         //======== panel5 ========
         {
-            panel5.setBackground(new Color(51, 0, 51));
+            panel5.setBackground(new Color(255, 102, 153));
 
             //---- label_login_label ----
             label_login_label.setText("Already Have an Account?");
@@ -255,29 +349,30 @@ public class RegistrationScreen extends JPanel {
             panel5Layout.setHorizontalGroup(
                 panel5Layout.createParallelGroup()
                     .addGroup(GroupLayout.Alignment.TRAILING, panel5Layout.createSequentialGroup()
-                        .addContainerGap(72, Short.MAX_VALUE)
+                        .addGap(32, 32, 32)
                         .addGroup(panel5Layout.createParallelGroup()
-                            .addGroup(panel5Layout.createSequentialGroup()
-                                .addComponent(label_login_label)
-                                .addGap(153, 153, 153)
-                                .addComponent(label_register_label))
-                            .addGroup(panel5Layout.createSequentialGroup()
-                                .addComponent(menu_login_button, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-                                .addGap(153, 153, 153)
-                                .addComponent(menu_button_register, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(label_login_label)
+                            .addComponent(menu_login_button, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                        .addGroup(panel5Layout.createParallelGroup()
+                            .addComponent(menu_button_register, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label_register_label))
                         .addGap(53, 53, 53))
             );
             panel5Layout.setVerticalGroup(
                 panel5Layout.createParallelGroup()
                     .addGroup(panel5Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(panel5Layout.createParallelGroup()
-                            .addComponent(label_login_label)
-                            .addComponent(label_register_label))
-                        .addGap(6, 6, 6)
-                        .addGroup(panel5Layout.createParallelGroup()
-                            .addComponent(menu_login_button)
-                            .addComponent(menu_button_register))
-                        .addGap(0, 11, Short.MAX_VALUE))
+                            .addGroup(panel5Layout.createSequentialGroup()
+                                .addComponent(label_login_label)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(menu_login_button))
+                            .addGroup(panel5Layout.createSequentialGroup()
+                                .addComponent(label_register_label)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(menu_button_register)))
+                        .addGap(0, 7, Short.MAX_VALUE))
             );
         }
 
@@ -285,15 +380,15 @@ public class RegistrationScreen extends JPanel {
         setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup()
-                .addComponent(TitlePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(MembersPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TitlePanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
                 .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addComponent(TitlePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addGap(33, 33, 33)
                     .addComponent(MembersPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(panel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -343,9 +438,23 @@ public class RegistrationScreen extends JPanel {
                 loginButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        loginButtonClicked(e);
+                        try {
+                            loginButtonClicked(e);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 });
+
+                //---- login_warning_username ----
+                login_warning_username.setFont(new Font("Arial", Font.BOLD, 9));
+                login_warning_username.setForeground(new Color(255, 51, 51));
+                login_warning_username.setBackground(new Color(255, 0, 51));
+
+                //---- login_warning_password ----
+                login_warning_password.setFont(new Font("Arial", Font.BOLD, 9));
+                login_warning_password.setForeground(new Color(255, 51, 51));
+                login_warning_password.setBackground(new Color(255, 0, 51));
 
                 GroupLayout panel4Layout = new GroupLayout(panel4);
                 panel4.setLayout(panel4Layout);
@@ -360,12 +469,16 @@ public class RegistrationScreen extends JPanel {
                                         .addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
                                             .addGap(0, 0, Short.MAX_VALUE)
                                             .addComponent(label_username)
-                                            .addContainerGap(282, Short.MAX_VALUE))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(login_warning_username)
+                                            .addContainerGap(269, Short.MAX_VALUE))
                                         .addGroup(GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
                                             .addGroup(panel4Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                                 .addGroup(GroupLayout.Alignment.LEADING, panel4Layout.createSequentialGroup()
                                                     .addComponent(label13)
-                                                    .addGap(0, 0, Short.MAX_VALUE))
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(login_warning_password)
+                                                    .addGap(0, 235, Short.MAX_VALUE))
                                                 .addComponent(login_password_field, GroupLayout.Alignment.LEADING)
                                                 .addComponent(login_username_field, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                                                 .addComponent(loginButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
@@ -380,11 +493,15 @@ public class RegistrationScreen extends JPanel {
                             .addGap(15, 15, 15)
                             .addComponent(label_login_title)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label_username)
+                            .addGroup(panel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(label_username)
+                                .addComponent(login_warning_username))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(login_username_field, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label13)
+                            .addGroup(panel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(label13)
+                                .addComponent(login_warning_password))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(login_password_field, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -397,13 +514,14 @@ public class RegistrationScreen extends JPanel {
             login_formContentPane.setLayout(login_formContentPaneLayout);
             login_formContentPaneLayout.setHorizontalGroup(
                 login_formContentPaneLayout.createParallelGroup()
-                    .addComponent(panel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel4, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
             login_formContentPaneLayout.setVerticalGroup(
                 login_formContentPaneLayout.createParallelGroup()
-                    .addGroup(login_formContentPaneLayout.createSequentialGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, login_formContentPaneLayout.createSequentialGroup()
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap())
             );
             login_form.pack();
             login_form.setLocationRelativeTo(login_form.getOwner());
@@ -429,17 +547,17 @@ public class RegistrationScreen extends JPanel {
                 label15.setFont(new Font("Segoe UI", Font.BOLD, 14));
                 label15.setHorizontalAlignment(SwingConstants.CENTER);
 
-                //---- label16 ----
-                label16.setText("Lawrence T. Miguel");
-                label16.setForeground(new Color(51, 51, 51));
-                label16.setFont(new Font("Segoe UI", Font.BOLD, 14));
-                label16.setHorizontalAlignment(SwingConstants.CENTER);
+                //---- login_label_account_name ----
+                login_label_account_name.setText("Lawrence T. Miguel");
+                login_label_account_name.setForeground(new Color(51, 51, 51));
+                login_label_account_name.setFont(new Font("Segoe UI", Font.BOLD, 14));
+                login_label_account_name.setHorizontalAlignment(SwingConstants.CENTER);
 
                 GroupLayout panel6Layout = new GroupLayout(panel6);
                 panel6.setLayout(panel6Layout);
                 panel6Layout.setHorizontalGroup(
                     panel6Layout.createParallelGroup()
-                        .addComponent(label16, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                        .addComponent(login_label_account_name, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                         .addComponent(label14, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                         .addComponent(label15, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                 );
@@ -451,7 +569,7 @@ public class RegistrationScreen extends JPanel {
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(label15)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label16)
+                            .addComponent(login_label_account_name)
                             .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
@@ -488,10 +606,10 @@ public class RegistrationScreen extends JPanel {
                 label_register.setFont(new Font("Fira Code", Font.BOLD, 20));
                 label_register.setForeground(new Color(51, 51, 51));
 
-                //---- label_username2 ----
-                label_username2.setText("Account Name");
-                label_username2.setFont(new Font("Arial", Font.BOLD, 15));
-                label_username2.setForeground(new Color(102, 102, 102));
+                //---- register_title_account_name ----
+                register_title_account_name.setText("Account Name");
+                register_title_account_name.setFont(new Font("Arial", Font.BOLD, 15));
+                register_title_account_name.setForeground(new Color(102, 102, 102));
 
                 //---- register_account_name ----
                 register_account_name.setForeground(Color.black);
@@ -516,14 +634,18 @@ public class RegistrationScreen extends JPanel {
                 loginButton2.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        registerButtonClicked(e);
+                        try {
+                            registerButtonClicked(e);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 });
 
-                //---- label_username3 ----
-                label_username3.setText("Username");
-                label_username3.setFont(new Font("Arial", Font.BOLD, 15));
-                label_username3.setForeground(new Color(102, 102, 102));
+                //---- register_label_username ----
+                register_label_username.setText("Username");
+                register_label_username.setFont(new Font("Arial", Font.BOLD, 15));
+                register_label_username.setForeground(new Color(102, 102, 102));
 
                 //---- register_username_field ----
                 register_username_field.setForeground(Color.black);
@@ -539,6 +661,26 @@ public class RegistrationScreen extends JPanel {
                 label18.setFont(new Font("Arial", Font.BOLD, 15));
                 label18.setForeground(new Color(102, 102, 102));
 
+                //---- register_warning_account_name ----
+                register_warning_account_name.setFont(new Font("Arial", Font.BOLD, 9));
+                register_warning_account_name.setForeground(new Color(255, 51, 51));
+                register_warning_account_name.setBackground(new Color(255, 0, 51));
+
+                //---- register_warning_username ----
+                register_warning_username.setFont(new Font("Arial", Font.BOLD, 9));
+                register_warning_username.setForeground(new Color(255, 51, 51));
+                register_warning_username.setBackground(new Color(255, 0, 51));
+
+                //---- register_warning_password ----
+                register_warning_password.setFont(new Font("Arial", Font.BOLD, 9));
+                register_warning_password.setForeground(new Color(255, 51, 51));
+                register_warning_password.setBackground(new Color(255, 0, 51));
+
+                //---- register_warning_password_confirm ----
+                register_warning_password_confirm.setFont(new Font("Arial", Font.BOLD, 9));
+                register_warning_password_confirm.setForeground(new Color(255, 51, 51));
+                register_warning_password_confirm.setBackground(new Color(255, 0, 51));
+
                 GroupLayout panel7Layout = new GroupLayout(panel7);
                 panel7.setLayout(panel7Layout);
                 panel7Layout.setHorizontalGroup(
@@ -553,22 +695,35 @@ public class RegistrationScreen extends JPanel {
                                     .addGap(6, 6, 6)
                                     .addGroup(panel7Layout.createParallelGroup()
                                         .addGroup(panel7Layout.createSequentialGroup()
-                                            .addComponent(label_username2)
+                                            .addComponent(register_title_account_name)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(register_warning_account_name)
                                             .addGap(0, 0, Short.MAX_VALUE))
                                         .addGroup(GroupLayout.Alignment.TRAILING, panel7Layout.createSequentialGroup()
                                             .addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                                 .addComponent(register_password_field, GroupLayout.Alignment.LEADING)
                                                 .addComponent(register_account_name, GroupLayout.Alignment.LEADING)
                                                 .addComponent(register_username_field, GroupLayout.Alignment.LEADING)
-                                                .addComponent(label17, GroupLayout.Alignment.LEADING)
-                                                .addComponent(label18, GroupLayout.Alignment.LEADING)
-                                                .addComponent(register_password_confirm_field, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE)
                                                 .addGroup(panel7Layout.createSequentialGroup()
                                                     .addGap(6, 6, 6)
-                                                    .addComponent(loginButton2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                    .addComponent(loginButton2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGroup(GroupLayout.Alignment.LEADING, panel7Layout.createSequentialGroup()
+                                                    .addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(GroupLayout.Alignment.LEADING, panel7Layout.createSequentialGroup()
+                                                            .addComponent(label17)
+                                                            .addGap(43, 43, 43)
+                                                            .addComponent(register_warning_password))
+                                                        .addGroup(GroupLayout.Alignment.LEADING, panel7Layout.createSequentialGroup()
+                                                            .addComponent(label18)
+                                                            .addGap(46, 46, 46)
+                                                            .addComponent(register_warning_password_confirm))
+                                                        .addComponent(register_password_confirm_field, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 322, GroupLayout.PREFERRED_SIZE))
+                                                    .addGap(0, 0, Short.MAX_VALUE)))
                                             .addGap(32, 32, 32))
                                         .addGroup(panel7Layout.createSequentialGroup()
-                                            .addComponent(label_username3)
+                                            .addComponent(register_label_username)
+                                            .addGap(39, 39, 39)
+                                            .addComponent(register_warning_username)
                                             .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 );
                 panel7Layout.setVerticalGroup(
@@ -577,19 +732,27 @@ public class RegistrationScreen extends JPanel {
                             .addGap(15, 15, 15)
                             .addComponent(label_register)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label_username2)
+                            .addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(register_title_account_name)
+                                .addComponent(register_warning_account_name))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(register_account_name, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label_username3)
+                            .addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(register_label_username)
+                                .addComponent(register_warning_username))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(register_username_field, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label17)
+                            .addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(label17)
+                                .addComponent(register_warning_password))
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(register_password_field, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label18)
+                            .addGroup(panel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(label18)
+                                .addComponent(register_warning_password_confirm))
                             .addGap(6, 6, 6)
                             .addComponent(register_password_confirm_field, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -634,17 +797,17 @@ public class RegistrationScreen extends JPanel {
                 label20.setFont(new Font("Segoe UI", Font.BOLD, 14));
                 label20.setHorizontalAlignment(SwingConstants.CENTER);
 
-                //---- label21 ----
-                label21.setText("Lawrence T. Miguel");
-                label21.setForeground(new Color(51, 51, 51));
-                label21.setFont(new Font("Segoe UI", Font.BOLD, 14));
-                label21.setHorizontalAlignment(SwingConstants.CENTER);
+                //---- register_label_account_name ----
+                register_label_account_name.setText("Lawrence T. Miguel");
+                register_label_account_name.setForeground(new Color(51, 51, 51));
+                register_label_account_name.setFont(new Font("Segoe UI", Font.BOLD, 14));
+                register_label_account_name.setHorizontalAlignment(SwingConstants.CENTER);
 
                 GroupLayout panel8Layout = new GroupLayout(panel8);
                 panel8.setLayout(panel8Layout);
                 panel8Layout.setHorizontalGroup(
                     panel8Layout.createParallelGroup()
-                        .addComponent(label21, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                        .addComponent(register_label_account_name, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                         .addComponent(label19, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                         .addComponent(label20, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                 );
@@ -656,7 +819,7 @@ public class RegistrationScreen extends JPanel {
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(label20)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(label21)
+                            .addComponent(register_label_account_name)
                             .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
@@ -704,27 +867,33 @@ public class RegistrationScreen extends JPanel {
     private JLabel label13;
     private JPasswordField login_password_field;
     private JButton loginButton;
+    private JLabel login_warning_username;
+    private JLabel login_warning_password;
     private JDialog dialogLoginSuccess;
     private JPanel panel6;
     private JLabel label14;
     private JLabel label15;
-    private JLabel label16;
+    private JLabel login_label_account_name;
     private JFrame registration_form;
     private JPanel panel7;
     private JLabel label_register;
-    private JLabel label_username2;
+    private JLabel register_title_account_name;
     private JTextField register_account_name;
     private JLabel label17;
     private JPasswordField register_password_field;
     private JButton loginButton2;
-    private JLabel label_username3;
+    private JLabel register_label_username;
     private JTextField register_username_field;
     private JPasswordField register_password_confirm_field;
     private JLabel label18;
+    private JLabel register_warning_account_name;
+    private JLabel register_warning_username;
+    private JLabel register_warning_password;
+    private JLabel register_warning_password_confirm;
     private JDialog dialogRegistrationSuccess;
     private JPanel panel8;
     private JLabel label19;
     private JLabel label20;
-    private JLabel label21;
+    private JLabel register_label_account_name;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
