@@ -8,11 +8,14 @@ public class Authentication {
     static final String DEFAULT_FILENAME = "users_information.csv";
     static final String DEFAULT_PATH = System.getProperty("user.dir") + "/" + DEFAULT_FILENAME;
 
-    /*
-        0 - Successful
-        1 - account_name invalid
-        2 - username_name invalid
-        3 - password confirmation not the same
+    /**
+     * Register the user's account if there are no errors in checks
+     * @param account_name Name of the user
+     * @param username Username of the user
+     * @param password Password of the user
+     * @param password_confirm Retyped password of the user
+     * @return List of integer: 0 if Successful, 1 if account_name is invalid, 2 if username_name is invalid, and 3 if password confirmation is not the same
+     * @throws IOException
      */
     public static List<Integer> register(String account_name, String username, String password, String password_confirm) throws IOException {
         Collection<User> users = Authentication.getLocalUsers();
@@ -46,12 +49,14 @@ public class Authentication {
 
     }
 
-    /*
-        0 - Successful
-        1 - Username not found
-        2 - password incorrect
+
+    /**
+     *Checks if the given username and password exist and matches the data in the local database
+     * @param username username of the user
+     * @param password password of the user
+     * @return list of integer: 0 if successful, 1 if username is not found, and 2 if password is incorrect
+     * @throws IOException
      */
-    //log in
     public static List<Integer> login(String username, String password) throws IOException {
 
         Collection<User> users = Authentication.getLocalUsers();
@@ -73,6 +78,12 @@ public class Authentication {
         return check_list;
     }
 
+    /**
+     * Gets the Name of an existing user
+     * @param username Username of the user
+     * @return Name of the user
+     * @throws IOException
+     */
     public static String getAccountName(String username) throws IOException {
         Collection<User> users = Authentication.getLocalUsers();
         String account_name = null;
@@ -85,7 +96,11 @@ public class Authentication {
         return account_name;
     }
 
-
+    /**
+     * Gets the data of the User object existing in the local database
+     * @return Collection of the User object
+     * @throws IOException
+     */
     public static Collection<User> getLocalUsers() throws IOException {
         Collection<User> users = new ArrayList<>();
 
@@ -113,11 +128,19 @@ public class Authentication {
         return users;
     }
 
+    /**
+     * Checks if a file exist
+     * @return True if the file exist, False if not
+     */
     public static boolean fileExist() {
         File f = new File(DEFAULT_PATH);
         return f.exists() && !f.isDirectory();
     }
 
+    /**
+     * Creates local database of the users if none exist
+     * @throws IOException
+     */
     public static void createUsersFile() throws IOException {
         FileWriter csvWriter = new FileWriter(DEFAULT_FILENAME);
         csvWriter.append("Account Name");
@@ -131,6 +154,11 @@ public class Authentication {
         csvWriter.close();
     }
 
+    /**
+     * Updates the data in the existing local database
+     * @param newData Collection of the User object that contains the data of the users
+     * @throws IOException
+     */
     public static void createUsersFile(Collection<User> newData) throws IOException {
         FileWriter csvWriter = new FileWriter(DEFAULT_FILENAME);
 
@@ -160,22 +188,40 @@ class User {
     String username;
     String password;
 
-
+    /**
+     * Creates a new User
+     * @param account_name Name of the user
+     * @param id username of the user
+     * @param code password of the user
+     */
     public User(String account_name, String id, String code) {
         this.account_name = account_name;
         this.username = id;
         this.password = code;
     }
 
+    /**
+     *Gets the password of a user
+     * @return password of a user
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Shows the data of a user
+     * @return data of the user containing account name, username, and password
+     */
     @Override
     public String toString() {
         return "{Account name:" + this.account_name + "; Username:" + this.username + "; Password:" + this.password + "}";
     }
 
+    /**
+     * Checks if the given object is equal to this user object
+     * @param obj Object
+     * @return true if the given object is equal to this user object, false otherwise
+     */
     public boolean equals(Object obj) {
         User u = (User) obj;
         if (this.username == null) return (this.account_name.equals(u.account_name));

@@ -34,22 +34,36 @@ public class AuthenticationScreen extends JPanel {
     private JDialog dialogRegistrationSuccess;
     private JLabel register_label_account_name;
 
+    /**
+     * Initializes the authentication screen of the gui
+     */
     public AuthenticationScreen() {
         initComponents();
     }
 
+
+    /**
+     * Sets the visibility of the login form to true, and the registration form to false
+     */
     private void menuLoginButton() {
-        // TODO add your code here
         login_form.setVisible(true);
         registration_form.setVisible(false);
     }
 
+    /**
+     * Sets the visibility of the Registration form to True, and the login form to false
+     */
     private void menuRegisterButton() {
-        // TODO add your code here
         registration_form.setVisible(true);
         login_form.setVisible(false);
     }
 
+    /**
+     * Executes when the login button is clicked in the login form. Does a series of checks to verify if
+     * the entered username and password are valid. Enables the visibility of the dialogLoginSuccess JFrame to
+     * true if the check is successful.
+     * @throws IOException
+     */
     private void loginButtonClicked() throws IOException {
         // TODO add your code here
         String username = login_username_field.getText();
@@ -87,6 +101,12 @@ public class AuthenticationScreen extends JPanel {
         }
     }
 
+    /**
+     * Executes when the register button is clicked in the register form. Does a series of checks to verify if
+     * the entered name, username, and passwords are valid. Enables the visibility of the dialogLoginSuccess JFrame to
+     * true if the check is successful.
+     * @throws IOException
+     */
     private void registerButtonClicked() throws IOException {
         // TODO add your code here
         String account_name = register_account_name.getText();
@@ -141,6 +161,9 @@ public class AuthenticationScreen extends JPanel {
 
     }
 
+    /**
+     * Initializes the components of the authentication screen of the GUI
+     */
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -501,7 +524,7 @@ public class AuthenticationScreen extends JPanel {
                 register_password_confirm_field.setForeground(Color.black);
 
                 //---- label18 ----
-                label18.setText("Password");
+                label18.setText("Confirm Password");
                 label18.setFont(new Font("Arial", Font.BOLD, 15));
                 label18.setForeground(new Color(102, 102, 102));
 

@@ -15,8 +15,6 @@ public class RegistrationAndLoginApp {
         frame.pack();
         frame.setVisible(true);
     }
-
-
 }
 
 
