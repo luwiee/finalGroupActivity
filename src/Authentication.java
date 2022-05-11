@@ -1,10 +1,12 @@
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class Authentication {
     //registered
     static final String DEFAULT_FILENAME = "users_information.csv";
-    static final String DEFAULT_PATH = System.getProperty("user.dir")+"/"+DEFAULT_FILENAME;
+    static final String DEFAULT_PATH = System.getProperty("user.dir") + "/" + DEFAULT_FILENAME;
 
     /*
         0 - Successful
@@ -15,7 +17,7 @@ public class Authentication {
     public static List<Integer> register(String account_name, String username, String password, String password_confirm) throws IOException {
         Collection<User> users = Authentication.getLocalUsers();
 
-        List<Integer> check_list = new ArrayList<Integer>();
+        List<Integer> check_list = new ArrayList<>();
 
 
         boolean account_name_valid = true;
@@ -32,20 +34,18 @@ public class Authentication {
         }
         if (!password_the_same) check_list.add(3);
 
-        if (account_name_valid && username_valid && password_the_same){
+        if (account_name_valid && username_valid && password_the_same) {
             users.add(new User(account_name, username, password));
             check_list.add(0);
         }
         // write new data
         createUsersFile(users);
 
-        //Use toArray to print collection elements
-        Object[] arr = users.toArray();//Return the elements in the collection to an obj array
-
         return check_list;
 
 
     }
+
     /*
         0 - Successful
         1 - Username not found
@@ -56,16 +56,16 @@ public class Authentication {
 
         Collection<User> users = Authentication.getLocalUsers();
 
-        List<Integer> check_list = new ArrayList<Integer>();
-        if (users.contains(new User(null,username, null))) {
+        List<Integer> check_list = new ArrayList<>();
+        if (users.contains(new User(null, username, null))) {
             for (User u : users) {
-                if (password.equals(u.getPassword())) {
+                if (password.equals(u.getPassword()) && u.username.equals(username)) {
                     check_list.add(0);
-                }else{
+                } else {
                     check_list.add(2);
                 }
             }
-        }else{
+        } else {
             check_list.add(1);
         }
 
@@ -77,7 +77,7 @@ public class Authentication {
         Collection<User> users = Authentication.getLocalUsers();
         String account_name = null;
         for (User u : users) {
-            if (username.equals(u.username)){
+            if (username.equals(u.username)) {
                 account_name = u.account_name;
                 break;
             }
@@ -86,11 +86,10 @@ public class Authentication {
     }
 
 
-
     public static Collection<User> getLocalUsers() throws IOException {
         Collection<User> users = new ArrayList<>();
 
-        String line = "";
+        String line;
         String splitBy = ",";
         if (!fileExist()) createUsersFile();
         try {
@@ -105,17 +104,16 @@ public class Authentication {
                 String username = users_line[1];
                 String password = users_line[2];
 
-                users.add(new User(account_name,username,password));
+                users.add(new User(account_name, username, password));
             }
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return users;
     }
 
-    public static boolean fileExist(){
+    public static boolean fileExist() {
         File f = new File(DEFAULT_PATH);
         return f.exists() && !f.isDirectory();
     }

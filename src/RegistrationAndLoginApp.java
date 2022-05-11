@@ -1,20 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-//Hi
 public class RegistrationAndLoginApp {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        // Initialize A FRAME
         JFrame frame = new JFrame("Menu");
         frame.setResizable(false);
+        // Set the Window Logo to SLU
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrationAndLoginApp.class.getResource("/images/Saint_Louis_University_(Baguio)_logo.jpg")));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.getContentPane().add(new RegistrationScreen());
+        // Change the content of the frame to the AuthenticationScreen Class
+        frame.getContentPane().add(new AuthenticationScreen());
         frame.pack();
         frame.setVisible(true);
     }
