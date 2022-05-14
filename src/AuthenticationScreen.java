@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-/*
- * Created by JFormDesigner on Thu May 05 14:17:41 SGT 2022
- */
-
-
 /**
  * @author unknown
  */
@@ -62,7 +57,7 @@ public class AuthenticationScreen extends JPanel {
      * Executes when the login button is clicked in the login form. Does a series of checks to verify if
      * the entered username and password are valid. Enables the visibility of the dialogLoginSuccess JFrame to
      * true if the check is successful.
-     * @throws IOException
+     * @throws IOException as when the file doesn't exist and has to be made
      */
     private void loginButtonClicked() throws IOException {
         // TODO add your code here
@@ -105,7 +100,7 @@ public class AuthenticationScreen extends JPanel {
      * Executes when the register button is clicked in the register form. Does a series of checks to verify if
      * the entered name, username, and passwords are valid. Enables the visibility of the dialogLoginSuccess JFrame to
      * true if the check is successful.
-     * @throws IOException
+     * @throws IOException as when the file doesnt exist and has to be made
      */
     private void registerButtonClicked() throws IOException {
         // TODO add your code here
@@ -165,8 +160,6 @@ public class AuthenticationScreen extends JPanel {
      * Initializes the components of the authentication screen of the GUI
      */
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
         JPanel menu = new JPanel();
         JPanel titlePanel = new JPanel();
         JLabel menu_title = new JLabel();
@@ -601,7 +594,5 @@ public class AuthenticationScreen extends JPanel {
             dialogRegistrationSuccess.pack();
             dialogRegistrationSuccess.setLocationRelativeTo(dialogRegistrationSuccess.getOwner());
         }
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
