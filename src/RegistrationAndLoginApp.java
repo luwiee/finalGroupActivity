@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegistrationAndLoginApp {
+    /**
+     * Initializes the program and starts a JFrame instance
+     */
     public static void main(String[] args) {
         // Initialize A FRAME
         JFrame frame = new JFrame("Menu");

@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Authentication {
     //registered
@@ -31,7 +33,7 @@ public class Authentication {
             account_name_valid = false;
             check_list.add(1);
         }
-        if (users.contains(new User(null, username, null))) {
+        if (users.contains(new User(null, username, null)) || !isValid(username)) {
             username_valid = false;
             check_list.add(2);
         }
@@ -180,6 +182,20 @@ public class Authentication {
 
         csvWriter.flush();
         csvWriter.close();
+    }
+
+
+    /**
+     * Checks if the passed username is valid
+     * @param username username of the account
+     */
+    public static boolean isValid(final String username) {
+        final String USERNAME_PATTERN =
+                "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
+
+        final Pattern pattern = Pattern.compile(USERNAME_PATTERN);
+        Matcher matcher = pattern.matcher(username);
+        return matcher.matches();
     }
 }
 

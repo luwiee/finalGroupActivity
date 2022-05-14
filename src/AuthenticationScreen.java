@@ -143,7 +143,7 @@ public class AuthenticationScreen extends JPanel {
             register_account_name.setText("");
         }
         if (errors.contains(2)) {
-            register_warning_username.setText("Username already exists!");
+            register_warning_username.setText("Username is invalid / Username already exists!");
             register_username_field.setText("");
         }
         if (errors.contains(3)) {
